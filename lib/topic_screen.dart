@@ -142,18 +142,32 @@ class TopicPage extends StatelessWidget {
             style: TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 20),
-          Text(
-            topic.content,
-            style: TextStyle(color: Colors.black, fontSize: 20),
-          ),
-          SizedBox(height: 20),
-          if (topic.imageUrl != null) // Check if imageUrl exists
-            Center(
-              child: Image.asset(
-                topic.imageUrl!, // Use ! for non-null assertion
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    child: Text(
+                      topic.content,
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  if (topic.imageUrl != null)
+                    Center(
+                      child: InteractiveViewer(
+                        child: Image.asset(
+                            topic.imageUrl!,
+                        ),
+                        minScale: 0.5,
+                        maxScale: 5.0,
+                      )
+                    ),
+                ],
               ),
             ),
-          Spacer(),
+          ),
           Align(
             alignment: Alignment.bottomRight,
             child: ElevatedButton(
@@ -220,24 +234,37 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            widget.quiz.question,
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 20),
-          if (widget.quiz.imageUrl != null) // Check if imageUrl exists
-            Center(
-              child: Image.asset(
-                widget.quiz.imageUrl!, // Use ! for non-null assertion
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    child: Text(
+                      widget.quiz.question,
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  if (widget.quiz.imageUrl != null)
+                    Center(
+                        child: InteractiveViewer(
+                          child: Image.asset(
+                            widget.quiz.imageUrl!,
+                          ),
+                          minScale: 0.5,
+                          maxScale: 5.0,
+                        )
+                    ),
+                ],
               ),
             ),
-          SizedBox(height: 20),
+          ),
           Column(
             children: shuffledOptions.map((option) {
               return Padding(
@@ -312,9 +339,29 @@ class _QuizPageState extends State<QuizPage> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 20,),
-            ]
-          ],
+              Align(
+                alignment: Alignment.bottomRight,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(double.infinity, 48),
+                    backgroundColor: Colors.indigo[900],
+                  ),
+                  onPressed: isCorrect ? widget.onNextPage : null,
+                  child: Container(
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Text(
+                      'CONTINUE',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ]
+          else...[
+          ]
         ],
       ),
     );

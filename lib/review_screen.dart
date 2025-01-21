@@ -89,7 +89,7 @@ _showLessonInfo(BuildContext context, ReviewLevel level) {
       content = '\n\nBasic Concepts and Logic Design\nC# Programming Language and Origin\nC# Programming Language Environment: IDE';
       break;
     case 3:
-      //content = '\n\nData Types, Variables, and Constants\nOperators, Expressions and Type Conversion';
+    //content = '\n\nData Types, Variables, and Constants\nOperators, Expressions and Type Conversion';
       content = '\n\nData Types, Variables, and Constants';
       break;
     case 4:
@@ -348,11 +348,15 @@ class _ReviewQuizState extends State<ReviewQuiz> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            widget.quiz.question,
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 20),
+          SingleChildScrollView(
+              child: GestureDetector(
+                child: Text(
+                  widget.quiz.question,
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          Spacer(),
           Column(
             children: shuffledOptions.map((option) {
               return Padding(
@@ -390,8 +394,9 @@ class _ReviewQuizState extends State<ReviewQuiz> {
               );
             }).toList(),
           ),
-          Spacer(),
+          Spacer(flex: 3),
           if (answered) ...[
+            Expanded(child:
             Align(
               child: Text(
                 isCorrect ? 'Correct!!!' : 'Incorrect...',
@@ -402,8 +407,9 @@ class _ReviewQuizState extends State<ReviewQuiz> {
                 textAlign: TextAlign.center,
               ),
             ),
-            Spacer(),
+            ),
           ],
+          Spacer(),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               minimumSize: Size(double.infinity, 48),
@@ -440,9 +446,9 @@ class ScoreScreen extends StatelessWidget {
         backgroundColor: Colors.blue[900],
         title: Center(
           child: Text(
-          'Review Results',
-          style: TextStyle(color: Colors.white),
-        ),
+            'Review Results',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       ),
       backgroundColor: Colors.white,
